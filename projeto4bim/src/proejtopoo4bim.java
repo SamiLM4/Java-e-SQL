@@ -1,0 +1,83 @@
+import java.util.List;
+import java.util.Scanner;
+
+public class proejtopoo4bim {
+
+    public static void main(String[] args) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        AlunoDAO alunoDAO = new AlunoDAO();
+        boolean continuar = true;
+
+        while (continuar) {
+            System.out.println("Escolha uma opção:");
+            System.out.println("1 - Inserir aluno");
+            System.out.println("2 - Listar alunos");
+            System.out.println("3 - Atualizar aluno");
+            System.out.println("4 - Excluir aluno");
+            System.out.println("0 - Sair");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer
+
+            switch (opcao) {
+                case 1:
+                    // Inserir aluno
+                    System.out.println("Digite o nome do aluno:");
+                    String nome = scanner.nextLine();
+                    System.out.println("Digite o curso do aluno:");
+                    String curso = scanner.nextLine();
+                    System.out.println("Digite a idade do aluno:");
+                    int idade = scanner.nextInt();
+                    scanner.nextLine(); // Limpar o buffer
+
+                    Aluno alunoInserir = new Aluno(0, nome, curso, idade);
+                    alunoDAO.inserirAluno(alunoInserir);
+                    break;
+
+                case 2:
+                    // Listar alunos
+                    List<Aluno> alunos = alunoDAO.listarAlunos();
+                    for (Aluno a : alunos) {
+                        System.out.println(a);
+                    }
+                    break;
+
+                case 3:
+                    // Atualizar aluno
+                    System.out.println("Digite o ID do aluno a ser atualizado:");
+                    int idAtualizar = scanner.nextInt();
+                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("Digite o novo nome do aluno:");
+                    String novoNome = scanner.nextLine();
+                    System.out.println("Digite o novo curso do aluno:");
+                    String novoCurso = scanner.nextLine();
+                    System.out.println("Digite a nova idade do aluno:");
+                    int novaIdade = scanner.nextInt();
+                    scanner.nextLine(); // Limpar o buffer
+
+                    Aluno alunoAtualizar = new Aluno(idAtualizar, novoNome, novoCurso, novaIdade);
+                    alunoDAO.atualizarAluno(alunoAtualizar);
+                    break;
+
+                case 4:
+                    // Excluir aluno
+                    System.out.println("Digite o ID do aluno a ser excluído:");
+                    int idExcluir = scanner.nextInt();
+                    alunoDAO.excluirAluno(idExcluir);
+                    break;
+
+                case 0:
+                    // Sair
+                    continuar = false;
+                    break;
+
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
+            }
+        }
+
+        alunoDAO.fecharConexao();
+        scanner.close();
+    }
+}
